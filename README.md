@@ -1,35 +1,41 @@
-# HBX geliştirme günlüğü
+# HBX | Üretim yönetimi
 
-HBX’i üretim emirlerini, stok kullanımını ve maliyetleri tek yerden takip etmek için geliştiriyorum. İlerledikçe burada neleri değiştirdiğimi ve nasıl test ettiğimi paylaşacağım.
+HBX’i üretim emrinden mamul bildirimi ve sevkiyata kadar olan süreci tek yerde takip etmek için geliştiriyorum. Özellikle reçetedeki malzeme ihtiyacının fiilî sarfla karşılaştırılmasına ve maliyet değişikliklerinin izlenebilir olmasına odaklanıyorum.
 
-## ERP sarfı ve maliyet takibi
+## Kullanım akışı
 
-ERP’den gelen sarfı üretim emrine bağladım. Aynı belge satırı tekrar gelirse ikinci kayıt oluşmuyor. Sarf zaten ERP’de işlendiği için HBX stoktan bir daha düşmüyor.
+1. **Üretim emri:** Reçeteye göre malzeme ihtiyacını hesapla. Gerçekleşen sarfı, sıradaki operasyonu ve parti hareketlerini emir üzerinden takip et.
+2. **ERP sarfı:** Gelen sarf satırlarını emre bağlamadan önce ürün, depo ve miktar eşleşmesini kontrol et. Onaylanan satırları üretime işle.
+3. **Üretim bildirimi ve rapor:** Mamul ve fire miktarlarını kaydet. Üretim kayıtlarını tarih, belge veya duruma göre süz ve CSV ya da baskı çıktısı al.
 
-ERP’de maliyet sonradan değiştiğinde önceki ve yeni değerleri yan yana görebiliyorum. Mamul veya fire bildirimi yapılmadan önce incelenen maliyet farkını gerekçesiyle emre işleyebiliyorum. Miktar da değişmişse ekran maliyet düzeltmesinin neden kullanılamadığını gösteriyor.
+## Ekran görüntüleri
 
-Bu akışı örnek verilerle test ettim. Sırada miktar farklarını ve mamul bildirimi sonrası değerlemeyi ele almak var.
-
-## HBX nasıl çalışıyor?
-
-HBX’te üretim emrini reçeteye bağlı olarak takip ediyorum. Emirden malzeme ihtiyacına ve gerçekleşen sarfa bakıyorum. Ardından operasyonları ilerletip mamul ve fire bildirimi yapabiliyorum. ERP’den alınan sarfların taslaklarını arşivde inceliyorum ve rapor merkezinden üretim kayıtlarını süzüp çıktı alıyorum.
-
-Aşağıdaki ekranları örnek verilerle hazırladım.
+Görüntüler örnek verilerle hazırlanmıştır.
 
 ### Üretim emri
 
-Bu ekranda reçete ihtiyacını gerçekleşen sarfla karşılaştırıyorum. Sıradaki operasyon ve partiye ait hareketler de aynı yerde.
+Planlanan miktar, gerçekleşen sarf ve sıradaki operasyon parti detayında birlikte görünür.
 
-![HBX üretim emri](gorseller/uretim-emri.png)
+![Üretim emrinde malzeme ihtiyacı ve gerçekleşen sarf](gorseller/uretim-emri.png)
 
 ### ERP sarf arşivi
 
-Üretim emrine bağlı sarf taslaklarını ve durumlarını burada takip ediyorum. Örnekte iptal edilmiş taslağın gerekçesi kayıtlı duruyor.
+Sarf taslakları üretim emrine göre izlenir. İptal edilen taslaklar gerekçeleriyle arşivde kalır.
 
-![HBX ERP sarf arşivi](gorseller/sarf-arsivi.png)
+![ERP sarf arşivinde taslak durumları](gorseller/sarf-arsivi.png)
 
 ### Rapor merkezi
 
-Üretim raporunda belgeye, tarihe veya duruma göre filtre uyguluyorum. Ürün ve birim bilgisiyle birlikte sonucu görüyor, gerektiğinde CSV veya baskı çıktısı alıyorum.
+Üretim raporu ürün kodu ve ölçü birimiyle birlikte filtrelenebilir. CSV ve yazdırma seçenekleri aynı filtreyi kullanır.
 
-![HBX rapor merkezi](gorseller/rapor-merkezi.png)
+![Rapor merkezinde üretim raporu ve çıktı seçenekleri](gorseller/rapor-merkezi.png)
+
+## Geliştirme notları
+
+### ERP sarfı ve maliyet takibi
+
+ERP’den gelen sarfı üretim emrine bağladım. Aynı belge satırı tekrar geldiğinde sistem mevcut kaydı koruyor. ERP’de işlenmiş sarf HBX stoklarına ikinci kez yansımıyor.
+
+Maliyet değişikliklerinde eski ve yeni tutarları aynı ekranda gösteriyorum. Mamul veya fire bildirimi yapılmadan önce incelemesi tamamlanan maliyet farkı, yetkili kullanıcı tarafından gerekçesiyle emre işlenebiliyor. Miktar da değişmişse ekran ayrı inceleme gerektiğini belirtiyor.
+
+Bu akışı örnek verilerle test ettim. Sırada miktar farklarının işlenmesi ve mamul bildirimi sonrası değerleme var.
